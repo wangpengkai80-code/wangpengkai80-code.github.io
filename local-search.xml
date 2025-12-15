@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>【实战】拒绝当韭菜！我用 Python 写了个自动盯盘机器人</title>
+    <link href="/2025/12/15/Quant-Hunter%E5%9F%BA%E9%87%91%E9%87%8F%E5%8C%96%E7%B3%BB%E7%BB%9F/"/>
+    <url>/2025/12/15/Quant-Hunter%E5%9F%BA%E9%87%91%E9%87%8F%E5%8C%96%E7%B3%BB%E7%BB%9F/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p><strong>一句话总结</strong>：<br>上课没空看盘？跌了不敢加仓？<br>我用 Python 搞了个自动化系统，每天下午 2:45 自动帮我算账，还发微信提醒我“快跑”还是“抄底”。</p></blockquote><h2 id="为什么要做这个？"><a href="#为什么要做这个？" class="headerlink" title="为什么要做这个？"></a>为什么要做这个？</h2><p>作为光电专业的学生，咱们最不缺的就是<strong>逻辑</strong>，最缺的是<strong>时间</strong>。<br>之前我买基金纯靠感觉，看到红了就追，看到绿了就慌。结果就是：<strong>凭运气赚的钱，凭实力亏回去了。</strong></p><p>我就想：<strong>能不能用代码帮我克服“追涨杀跌”的人性弱点？</strong></p><p>于是，就有了这个项目 —— **Quant-Hunter (量化猎人)**。</p><hr><h2 id="它能干什么？"><a href="#它能干什么？" class="headerlink" title="它能干什么？"></a>它能干什么？</h2><p>简单说，它就是我的<strong>私人基金经理</strong>，24小时不睡觉那种。</p><h3 id="1-自动算账，拒绝盲操"><a href="#1-自动算账，拒绝盲操" class="headerlink" title="1. 自动算账，拒绝盲操"></a>1. 自动算账，拒绝盲操</h3><p>它会自动抓取天天基金的数据，结合我设定的<strong>“多因子模型”</strong>（其实就是看趋势、看回撤、看乖离率），给每个基金打分。</p><ul><li><strong>分数高</strong>：说明现在是黄金坑，<strong>建议买入</strong>。</li><li><strong>分数低</strong>：说明涨太多了有风险，<strong>建议止盈</strong>。</li><li><strong>熔断报警</strong>：如果跌破了 60 日均线，直接弹窗警告我<strong>“别接飞刀！”</strong>。</li></ul><h3 id="2-效果演示（实拍）"><a href="#2-效果演示（实拍）" class="headerlink" title="2. 效果演示（实拍）"></a>2. 效果演示（实拍）</h3><p>这是我在本地终端运行时的样子。看着数据飞速滚动，算出最终得分的那一刻，那种<strong>掌控感</strong>真的爽。</p><p><img src="/images/quant-project/cli-demo.gif" alt="终端运行实拍"><br><em>(图：脚本正在疯狂计算全市场的实时估值)</em></p><hr><h2 id="核心逻辑（说人话版）"><a href="#核心逻辑（说人话版）" class="headerlink" title="核心逻辑（说人话版）"></a>核心逻辑（说人话版）</h2><p>别被那些金融名词吓到了，其实底层逻辑就三句话：</p><ol><li><strong>顺势而为</strong>：站上 60 日均线才玩，跌破了就跑。（Python 里用 <code>pandas.rolling</code> 算均线）</li><li><strong>不仅要猛，还要稳</strong>：赚得多不算牛，回撤小才是真牛。（用 <code>Calmar</code> 比率筛选）</li><li><strong>即使是好东西，太贵也不买</strong>：涨得离谱了就要回调，这时候不能追。（用乖离率 <code>Bias</code> 控制）</li></ol><p><img src="/images/quant-project/architecture.png" alt="系统架构图"><br><em>(图：这是我画的系统流程图，其实原理并不复杂)</em></p><hr><h2 id="部分核心代码分享"><a href="#部分核心代码分享" class="headerlink" title="部分核心代码分享"></a>部分核心代码分享</h2><p>为了防止代码太乱，我上了 Python 的类型检查。这不仅看起来专业，还能防止数据类型出错。</p><pre><code class="python"># 引入必要的库from typing import Dict, Optional, Unionimport pandas as pd# 核心打分逻辑（简化版）def calculate_score(price: float, ma60: float) -&gt; int:    &quot;&quot;&quot;    根据当前价格和均线计算得分    &quot;&quot;&quot;    # 1. 如果跌破生命线，直接判死刑    if price &lt; ma60:        return 0         # 2. 如果乖离率太大（涨太猛了），扣分    bias = (price - ma60) / ma60    if bias &gt; 0.2:        return 50 # 即使是牛市也要减仓            # 3. 正常情况，给个满分推荐    return 100</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术方案</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>搞钱</tag>
+      
+      <tag>Python</tag>
+      
+      <tag>自动化</tag>
+      
+      <tag>基金实战</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>写给大学自己的几条建议</title>
+    <link href="/2025/12/15/%E5%86%99%E7%BB%99%E5%A4%A7%E5%AD%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E5%87%A0%E6%9D%A1%E5%BB%BA%E8%AE%AE/"/>
+    <url>/2025/12/15/%E5%86%99%E7%BB%99%E5%A4%A7%E5%AD%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E5%87%A0%E6%9D%A1%E5%BB%BA%E8%AE%AE/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>随笔</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>复盘</tag>
+      
+      <tag>心学</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>VBA工资条批量生成器-项目复盘</title>
+    <link href="/2025/12/15/VBA%E5%B7%A5%E8%B5%84%E6%9D%A1%E6%89%B9%E9%87%8F%E7%94%9F%E6%88%90%E5%99%A8-%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/"/>
+    <url>/2025/12/15/VBA%E5%B7%A5%E8%B5%84%E6%9D%A1%E6%89%B9%E9%87%8F%E7%94%9F%E6%88%90%E5%99%A8-%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>技术方案</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>搞钱</tag>
+      
+      <tag>自动化</tag>
+      
+      <tag>VBA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>【实战案例】一句“天太专业了”背后：如何用Access打造企业级决策支持系统？</title>
+    <link href="/2025/12/14/Novodesign-Access%E6%A1%88%E4%BE%8B/"/>
+    <url>/2025/12/14/Novodesign-Access%E6%A1%88%E4%BE%8B/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p><strong>“天太专业了。。”</strong></p><p>这是今天交付完项目后，客户发来的第一句反馈。<br>这不是一次普通的“代做作业”，而是一次<strong>从数据杂乱无章</strong>到<strong>自动化辅助决策</strong>的完整技术降维打击。</p></blockquote><h2 id="一、-客户的需求：不仅仅是“做个库”"><a href="#一、-客户的需求：不仅仅是“做个库”" class="headerlink" title="一、 客户的需求：不仅仅是“做个库”"></a>一、 客户的需求：不仅仅是“做个库”</h2><p>这次的客户是一位面临结课作业压力的大学生。他的课题是为一家名为 <strong>Novodesign</strong> 的公司开发一套<strong>企业决策支持系统</strong>。</p><p><strong>难点在于</strong>：老师要求的不仅仅是“存储数据”，而是要对数据进行<strong>深度整合与分析</strong>，要在关键决策场景（如选址、库存、生产）提供可视化的数据支持。</p><p>客户之前的状态：</p><ul><li>手握一堆 Excel 表格，数据分散。</li><li>不知道怎么用 Access 实现复杂的业务逻辑（比如按重量自动分配货位）。</li><li><strong>最头疼的是</strong>：系统做出来也就算了，还要写一份专业的<strong>《用户使用说明书》</strong>，这对很多理工科学生来说简直是噩梦。</li></ul><h2 id="二、-站长的解决方案：Access-BI思维"><a href="#二、-站长的解决方案：Access-BI思维" class="headerlink" title="二、 站长的解决方案：Access + BI思维"></a>二、 站长的解决方案：Access + BI思维</h2><p>接单后，我没有把它当成一个“作业”来做，而是把它当成一个<strong>微型ERP系统</strong>来架构。</p><p>我利用 Microsoft Access 的强大功能，为 Novodesign 定制了四大核心功能模块：</p><h3 id="1-智能仓库货位决策方案"><a href="#1-智能仓库货位决策方案" class="headerlink" title="1. 智能仓库货位决策方案"></a>1. 智能仓库货位决策方案</h3><p>这不是简单的记录东西放在哪。我在后台写入了逻辑判断算法：</p><ul><li><strong>自动称重逻辑</strong>：系统自动识别 &gt;70kg 的商品，强制标记为“重型货物区”，建议叉车搬运。</li><li><strong>频次分析逻辑</strong>：自动统计出库频率（&gt;100次），将爆款商品自动分配到 <strong>A区（近出口）</strong>，极大地缩短了搬运距离。</li></ul><h3 id="2-科学的新建工厂选址分析"><a href="#2-科学的新建工厂选址分析" class="headerlink" title="2. 科学的新建工厂选址分析"></a>2. 科学的新建工厂选址分析</h3><p>为了降低物流成本，我利用 SQL 聚合查询，对客户通讯录进行了地理维度分析：</p><ul><li>系统自动统计各州（State）的现有客户数量，并按降序排列。</li><li><strong>决策输出</strong>：直接生成报表，指出客户最密集的区域（如 CA 加利福尼亚州），为建厂选址提供硬数据支撑。</li></ul><h3 id="3-产品产量决策支持"><a href="#3-产品产量决策支持" class="headerlink" title="3. 产品产量决策支持"></a>3. 产品产量决策支持</h3><p>基于历史销量制定生产计划，避免库存积压：</p><ul><li><strong>畅销品策略</strong>：针对头部商品（Occasional Chair等）生成增产建议。</li><li><strong>滞销品策略</strong>：针对尾部滑销品生成减产或停止生产建议。</li></ul><h2 id="三、-交付标准：不仅交付代码，更交付“文档”"><a href="#三、-交付标准：不仅交付代码，更交付“文档”" class="headerlink" title="三、 交付标准：不仅交付代码，更交付“文档”"></a>三、 交付标准：不仅交付代码，更交付“文档”</h2><p>很多开发者只管代码能跑，不管用户会不会用。但我认为，<strong>专业的文档</strong>是系统的一部分。</p><p>为了让客户能顺利通过答辩（并在老师面前秀一把），我为他编写了一份<strong>企业级的《用户使用说明书》</strong>。</p><p><strong>这就是那份让客户惊呼“太专业”的文档：</strong></p><p><img src="/images/manual.png" alt="Novodesign系统说明书"><br><em>(图：为客户定制的全套系统说明文档，逻辑清晰，图文并茂)</em></p><h2 id="四、-客户反馈：专业就是最好的名片"><a href="#四、-客户反馈：专业就是最好的名片" class="headerlink" title="四、 客户反馈：专业就是最好的名片"></a>四、 客户反馈：专业就是最好的名片</h2><p>交付的瞬间，客户的反应是最真实的。<br>我们不需要过多的自我吹嘘，<strong>结果说明一切</strong>。</p><p><img src="/images/chat.png" alt="客户微信好评"><br><em>(图：客户发来的真实反馈，专业度满分)</em></p><h2 id="五、-站长总结"><a href="#五、-站长总结" class="headerlink" title="五、 站长总结"></a>五、 站长总结</h2><p>为什么我要把一个学生作业做成这样？</p><p>因为在 <strong>光电站长</strong> 的字典里，<strong>技术没有高低之分，只有解决问题的程度之别。</strong></p><p>即便是 Access 这样基础的工具，只要注入了<strong>商业逻辑</strong>和<strong>用户思维</strong>，一样能做出惊艳的“决策支持系统”。</p><p>如果你也正被复杂的<strong>数据库设计、管理系统开发、数据分析报告</strong>搞得焦头烂额：</p><ul><li><strong>毕设&#x2F;大作业逻辑跑不通？</strong></li><li><strong>有数据但不知道怎么分析？</strong></li><li><strong>需要一份让导师眼前一亮的专业文档？</strong></li></ul><p><strong>欢迎联系站长。我交付的不仅是源码，更是一套完整的解决方案。</strong></p><hr><p><strong>你需要专业的Access定制或作业辅导吗？</strong></p><ul><li><strong>微信</strong>：W15261202556</li><li><strong>闲鱼搜</strong>：染房街发牢骚的矮人海象</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术方案(搞钱)</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Access</tag>
+      
+      <tag>商业智能</tag>
+      
+      <tag>毕设神器</tag>
+      
+      <tag>系统定制</tag>
+      
+      <tag>案例复盘</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>承认吧，绝大多数时候我们都是在“假装知道”</title>
+    <link href="/2025/12/11/real-cognition-1/"/>
+    <url>/2025/12/11/real-cognition-1/</url>
+    
+    <content type="html"><![CDATA[<p>搭建这个网站的时候，我一直在想一个问题：在这个信息爆炸的时代，我们到底是知道得更多了，还是更糊涂了？</p><p>我想给自己建立一个“思维避难所”。不为了教导谁，只为了在这个混乱的世界里，保持一点清醒。</p><span id="more"></span><h2 id="历史不是故事书，是未来的草蛇灰线"><a href="#历史不是故事书，是未来的草蛇灰线" class="headerlink" title="历史不是故事书，是未来的草蛇灰线"></a>历史不是故事书，是未来的草蛇灰线</h2><p>很多人不爱读历史，觉得那都是死人的事，跟自己月薪三千的生活没关系。</p><p>但这其实是一种傲慢。在这个地球村里，太平洋对面的一次金融决策，甚至几百年前的一个教训，都在预示着我们明天的命运。</p><p>举个具体的例子：<strong>大明王朝是怎么亡的？</strong><br>课本上说是李自成造反，是崇祯皇帝无能。但如果你把视野拉到全球，会看到一个惊悚的真相：<strong>明朝其实死于一场“全球金融危机”。</strong></p><p>当时的明朝就像现在的世界工厂，瓷器茶叶出口，换回了全世界（主要是西班牙和日本）的白银。明朝的经济命脉完全绑在了白银上。<br>后来，西班牙在美洲的银矿枯竭了，日本锁国了，全球白银供应链断了。<br>这就导致明朝内部爆发了剧烈的通货紧缩，银价飞涨，百姓手里的铜板变得一文不值，没钱吃饭，只好造反。</p><p><strong>你看，这像不像今天？</strong><br>美联储在大洋彼岸加个息，全球的资金就回流美国，导致其他国家的货币贬值、工厂倒闭、甚至政权动荡。</p><p>读历史不是为了听故事，而是为了看懂这种<strong>“传导机制”</strong>。当你看懂了万历年间的银子怎么流转，你大概就能看懂现在的美元潮汐会如何收割你的钱包。这才是学习历史的真正性价比——<strong>它给你开了上帝视角。</strong></p><h2 id="“没时间”是成年人最大的谎言"><a href="#“没时间”是成年人最大的谎言" class="headerlink" title="“没时间”是成年人最大的谎言"></a>“没时间”是成年人最大的谎言</h2><p>看懂了道理，为什么还是过不好这一生？<br>因为我们总觉得自己“没时间”。</p><p>王阳明有句话特别刺耳：“知而不行，只是未知。”<br>他说得太狠了。他的意思是，<strong>如果你没去做，那就说明你根本没懂。</strong></p><p>我总觉得自己想学编程、想搞副业，但是学业太忙、琐事太多。<br>这其实是自我欺骗。如果现在有人拿着枪指着我，或者拍一万块钱在桌上，让我今晚必须把网站搭好，我绝对能挤出时间。</p><p>之所以拖延，是因为在我的潜意识里，<strong>“刷手机的快乐”</strong> 依然大于 <strong>“改变命运的渴望”</strong>。<br>所以我承认，之前的我都是“假知道”。我并没有痛彻心扉地意识到那些事情的价值。真正的“知”，是像手碰到火会立刻缩回来一样，是一种生理性的行动本能。</p><h2 id="允许自己做一个“简陋”的开创者"><a href="#允许自己做一个“简陋”的开创者" class="headerlink" title="允许自己做一个“简陋”的开创者"></a>允许自己做一个“简陋”的开创者</h2><p>在纠结要不要做这个网站时，我总是想把它弄得完美再上线。<br>但这又掉进了一个思维陷阱。</p><p>我们提到长城，本能地会想到秦始皇。但实际上，我们今天看到的那些气吞山河的砖石长城，绝大部分是明朝修的。秦长城历经两千年，早就是一堆不起眼的黄土包了。</p><p>可为什么历史记住了秦始皇？<br>因为 <strong>0 到 1</strong> 的界定权在他手里。是他确立了防线的走向，是他把散乱的城墙连成了“万里长城”。明朝人做得再好，那叫“锦上添花”，那叫 1 到 100。</p><p>做人做事也是一样。<br>我现在搭建的这个网站，它很简陋，它就是我的“秦土墙”。<br>但它是我在这个数字世界插下的第一面旗帜。有了这个简陋的开始，未来我才有机会给它包砖、加固，把它修成我的“明长城”。</p><p>如果连那一堆土都不敢堆起来，又何谈未来的宏伟？</p><h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>人生这场游戏，大多数人都活成了 NPC，被情绪推着走，被算法喂养。<br>我想试着跳出来，用历史的眼光看周期，用心学的逻辑看自己，用代码的手段解决问题。</p><p>这条路可能很孤单，但<strong>清醒</strong>本身，就是一种最高的奖赏。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>随笔</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>深度思考</tag>
+      
+      <tag>历史周期</tag>
+      
+      <tag>认知觉醒</tag>
+      
+      <tag>长期主义</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>专业接单：Excel/VBA/Access 定制开发</title>
+    <link href="/2025/12/10/Money-Making-Plan/"/>
+    <url>/2025/12/10/Money-Making-Plan/</url>
+    
+    <content type="html"><![CDATA[<h1 id="你好，我是独立开发者"><a href="#你好，我是独立开发者" class="headerlink" title="你好，我是独立开发者"></a>你好，我是独立开发者</h1><h2 id="我的业务范围："><a href="#我的业务范围：" class="headerlink" title="我的业务范围："></a>我的业务范围：</h2><ol><li><strong>Excel VBA 脚本</strong>：一键自动化处理表格，告别加班。</li><li><strong>Access 系统定制</strong>：进销存、客户管理、财务管理系统。</li><li><strong>爬虫与数据处理</strong>：全网数据采集。</li></ol><h2 id="为什么选择我？"><a href="#为什么选择我？" class="headerlink" title="为什么选择我？"></a>为什么选择我？</h2><ul><li><strong>价格实惠</strong>：学生党创业，比公司报价低 50%。</li><li><strong>响应迅速</strong>：全天在线，改到满意为止。</li></ul><blockquote><p><strong>有需求请私信，或者加微信号：W15261202556</strong></p></blockquote>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>业务介绍</tag>
+      
+      <tag>搞钱</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  
+</search>
